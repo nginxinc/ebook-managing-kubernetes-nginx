@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bash
+  template:
+    metadata:
+      labels:
+        app: bash
+      annotations:
+        config.nsm.nginx.com/default-egress-allowed: "true"
+    spec:
+      containers:
+      - name: bash
+        image: nginx:latest

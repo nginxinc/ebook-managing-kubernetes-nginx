@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger
+  labels:
+    app: jaeger
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: jaeger
+  template:
+    metadata:
+      labels:
+        app: jaeger
+      annotations:
+        injector.nsm.nginx.com/auto-inject: "false"
+    spec:
+      containers:
+      - name: jaeger
+        image: jaegertracing/all-in-one:latest
+        ports:
+        - containerPort: 16686
+        - containerPort: 14250
+        - containerPort: 6831
+          protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger
+  labels:
+    app: jaeger
+  namespace: monitoring
+spec:
+  ports:
+  - name: frontend
+    port: 16686
+    targetPort: 16686
+  - name: grpc-collector
+    port: 14250
+    targetPort: 14250
+  - name: collector
+    port: 6831
+    targetPort: 6831
+    protocol: UDP
+  selector:
+    app: jaeger

@@ -1,0 +1,25 @@
+apiVersion: specs.smi-spec.io/v1alpha3
+kind: HTTPRouteGroup
+metadata:
+  name: reviews-testgroup-rg
+  namespace: default
+spec:
+  matches:
+  - name: test-users
+    headers:
+    - user-agent: ".*Firefox.*"
+---
+apiVersion: split.smi-spec.io/v1alpha3
+kind: TrafficSplit
+metadata:
+  name: reviews
+spec:
+  service: reviews
+  backends:
+  - service: reviews-v1
+    weight: 0
+  - service: reviews-v3
+    weight: 100
+  matches:
+  - kind: HTTPRouteGroup
+    name: reviews-testgroup-rg

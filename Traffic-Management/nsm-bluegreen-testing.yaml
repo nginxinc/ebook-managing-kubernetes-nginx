@@ -1,0 +1,77 @@
+apiVersion: split.smi-spec.io/v1alpha3
+kind: TrafficSplit
+metadata:
+  name: reviews
+spec:
+  service: reviews
+  backends:
+  - service: reviews-v1
+    weight: 0
+  - service: reviews-v2-1
+    weight: 100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews
+  labels:
+    app: reviews-v1
+    service: reviews-v1
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews-v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews-v1
+  labels:
+    app: reviews-v1
+    service: reviews-v1
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews-v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews-v2-1
+  labels:
+    app: reviews-v2-1
+    service: reviews-v2-1
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews-v2-1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews-v2-1
+  labels:
+    app: reviews-v2-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews-v2-1
+  template:
+    metadata:
+      labels:
+        app: reviews-v2-1
+    spec:
+      serviceAccountName: bookinfo-reviews
+      containers:
+      - name: reviews-v2-1
+        image: docker.io/istio/examples-bookinfo-reviews-v2:1.15.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080

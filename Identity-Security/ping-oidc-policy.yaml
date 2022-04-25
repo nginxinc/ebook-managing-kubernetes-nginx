@@ -1,0 +1,11 @@
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: ping-oidc-policy
+spec:
+  oidc:
+    clientID: ping-client-id
+    clientSecret: ping-oidc-secret
+    authEndpoint: https://auth.pingone.com/token/as/authorize
+    tokenEndpoint: https://auth.pingone.com/token/as/token
+    jwksURI: https://auth.pingone.com/token/as/jwks

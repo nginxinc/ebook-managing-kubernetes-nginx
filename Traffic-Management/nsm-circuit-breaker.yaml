@@ -1,0 +1,29 @@
+apiVersion: specs.smi.nginx.com/v1alpha1
+kind: CircuitBreaker
+metadata:
+  name: nsm-circuit-breaker
+  namespace: default
+spec:
+  destination:
+    kind: Service
+    name: reviews
+    namespace: default
+  errors: 3
+  timeoutSeconds: 30
+  fallback:
+    service: default/reviews-backup
+    port: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews-backup
+  labels:
+    app: reviews-backup
+    service: reviews-backup
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews-v1

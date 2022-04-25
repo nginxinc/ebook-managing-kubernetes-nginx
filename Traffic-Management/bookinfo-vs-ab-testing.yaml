@@ -1,0 +1,27 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: reviews
+spec:
+  host: reviews.example.com
+  upstreams:
+  - name: reviews-v1
+    service: reviews-v1
+    port: 9080
+  - name: reviews-v2-1 
+    service: reviews-v2-1
+    port: 9080
+  - name: reviews-v3
+    service: reviews-v3
+    port: 9080
+  routes:
+  - path: /
+    matches:
+    - conditions:
+      - header: "user-agent"
+        value: ".*Firefox.*"
+      action:
+        pass: reviews-v3
+    action:
+      pass: reviews-v1
+

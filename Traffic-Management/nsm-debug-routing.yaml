@@ -1,0 +1,32 @@
+apiVersion: specs.smi-spec.io/v1alpha3  
+kind: HTTPRouteGroup  
+metadata:  
+  name: reviews-session-cookie 
+  namespace: default  
+spec:  
+  matches:  
+  - name: get-session-cookie  
+    headers: 
+    - Cookie: "session_token=xxx-yyy-zzz" 
+  - name: get-api-requests 
+    pathRegex: "/api/reviews" 
+    methods: 
+    - GET 
+
+---
+
+apiVersion: split.smi-spec.io/v1alpha3 
+kind: TrafficSplit 
+metadata: 
+  name: reviews 
+spec: 
+  service: reviews 
+  backends: 
+  - service: reviews-v1 
+    weight: 0 
+  - service: reviews-v3
+    weight: 100 
+  matches: 
+  - kind: HTTPRouteGroup 
+    name: reviews-session-cookie 
+

@@ -1,0 +1,18 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: bookinfo-vs
+spec:
+  host: bookinfo.example.com
+  tls:
+    secret: bookinfo-secret
+  upstreams:
+  - name: backend
+    service: productpage
+    port: 9080
+  routes:
+  - path: /
+    policies:
+    - name: ad-oidc-policy
+    action:
+      pass: backend

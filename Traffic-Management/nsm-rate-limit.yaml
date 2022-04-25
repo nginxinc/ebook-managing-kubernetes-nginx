@@ -1,0 +1,18 @@
+apiVersion: specs.smi.nginx.com/v1alpha1
+kind: RateLimit
+metadata:
+  name: nsm-rate-limit
+  namespace: default
+spec:
+  destination:
+    kind: Service
+    name: productpage
+    namespace: default
+  sources:
+  - kind: Deployment
+    name: bash
+    namespace: default
+  name: 10rm
+  rate: 10r/m
+  burst: 0
+  delay: nodelay

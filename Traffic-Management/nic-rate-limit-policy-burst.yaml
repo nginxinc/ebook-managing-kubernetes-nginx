@@ -1,0 +1,14 @@
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: nic-rate-limit-policy
+spec:
+  rateLimit:
+    rate: 10r/s
+    zoneSize: 10M
+    key: ${binary_remote_addr}
+    logLevel: warn
+    rejectCode: 503
+    dryRun: false
+    noDelay: true
+    burst: 10

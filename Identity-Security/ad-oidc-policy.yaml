@@ -1,0 +1,11 @@
+apiVersion: k8s.nginx.org/v1
+kind: Policy
+metadata:
+  name: ad-oidc-policy
+spec:
+  oidc:
+    clientID: ad-client-id
+    clientSecret: ad-oidc-secret
+    authEndpoint: https://login.microsoftonline.com/token/oauth2/v2.0/authorize
+    tokenEndpoint: https://login.microsoftonline.com/token/oauth2/v2.0/token
+    jwksURI: https://login.microsoftonline.com/token/discovery/v2.0/keys?appid=appid
