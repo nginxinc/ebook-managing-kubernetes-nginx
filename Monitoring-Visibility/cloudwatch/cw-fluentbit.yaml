@@ -128,9 +128,9 @@ spec:
         imagePullPolicy: Always
         env:
             - name: AWS_ACCESS_KEY_ID
-              value: << your_aws_access_key_id >>
+              value: << AWS_access_key >>
             - name: AWS_SECRET_ACCESS_KEY
-              value: << your_aws_secret_access_key >>
+              value: << AWS_secret_access_key >>
             - name: AWS_REGION
               value: us-west-1
             - name: CLUSTER_NAME

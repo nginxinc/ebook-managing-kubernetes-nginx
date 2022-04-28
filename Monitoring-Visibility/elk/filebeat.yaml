@@ -24,8 +24,8 @@ data:
                     paths:
                       - /var/log/containers/*-${data.kubernetes.container.id}.log
 
-    cloud.id: "changeme"
-    cloud.auth: "elastic:changeme"
+    cloud.id: "cloud_ID"
+    cloud.auth: "elastic:password"
 ---
 apiVersion: apps/v1
 kind: DaemonSet

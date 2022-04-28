@@ -14,5 +14,3 @@ spec:
   - path: /
     action:
       pass: backend
-  policies:
-  - name: nic-rate-limit-policy
