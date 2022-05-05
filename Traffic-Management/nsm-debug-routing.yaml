@@ -12,9 +12,7 @@ spec:
     pathRegex: "/api/reviews" 
     methods: 
     - GET 
-
 ---
-
 apiVersion: split.smi-spec.io/v1alpha3 
 kind: TrafficSplit 
 metadata: 
@@ -29,4 +27,3 @@ spec:
   matches: 
   - kind: HTTPRouteGroup 
     name: reviews-session-cookie 
-

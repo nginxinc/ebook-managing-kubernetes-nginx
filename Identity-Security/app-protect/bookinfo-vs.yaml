@@ -6,8 +6,8 @@ spec:
   host: bookinfo.example.com
   policies:
   - name: waf-policy
-  #tls:
-  #  secret: bookinfo-secret
+  tls:
+    secret: bookinfo-secret
   upstreams:
   - name: backend
     service: productpage
