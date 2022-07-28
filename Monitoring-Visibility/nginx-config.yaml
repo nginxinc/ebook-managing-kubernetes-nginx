@@ -4,8 +4,17 @@ metadata:
   name: nginx-config
   namespace: nginx-ingress
 data:
-    proxy-protocol: "True"
-    real-ip-header: "proxy_protocol"
-    set-real-ip-from: "0.0.0.0/0"
-    enable-opentracing: "true"
-    jaeger-collector-host: jaeger.monitoring.svc.cluster.local
+    opentracing: "True"
+    opentracing-tracer: "/usr/local/lib/libjaegertracing_plugin.so"
+    opentracing-tracer-config: |
+         {
+             "service_name": "nginx-ingress",
+             "propagation_format": "w3c",
+             "sampler": {
+                 "type": "const",
+                 "param": 1
+             },
+             "reporter": {
+                 "localAgentHostPort": "jaeger.monitoring.svc.cluster.local:6831"
+             }
+          }
